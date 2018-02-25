@@ -8,8 +8,6 @@ related: true
 comments: true
 ---
 
-\[DEBUG\]
-
 It has been a long time since my last blog for sure! Close to 4 months! Well, time to change that, I guess. This blog will describe steps needed to *pwn* the Mantis machine from [HackTheBox](https://www.hackthebox.eu/) labs. Hope you enjoy! 
 
 ***
@@ -145,7 +143,7 @@ Notice two alerting things:
 1. The actual filename - **dev_notes_NmQyNDI0NzE2YzVmNTM0MDVmNTA0MDczNzM1NzMwNzI2NDIx.txt.txt**
 2. The scrollbar on the right indicates we can still go down and view possible hidden content.
 
-Regarding point 1 - the filename looks suspicious. 2 file extensions and "random" gibberish as the name. If you look closely, you can spot that the name is base64 encoded. Proceed to it decode! `echo NmQyNDI0NzE2YzVmNTM0MDVmNTA0MDczNzM1NzMwNzI2NDIx | base64 -d`. This outputs `6d2424716c5f53405f504073735730726421`. That looks familiar as well, doesn't it? It's hex! Aaaand it decodes to `m$$ql_S@_P@ssW0rd!`. Wonderful! Onto the second point now. Simply scroll down the webpage.
+Regarding point 1 - the filename looks suspicious. 2 file extensions and "random" gibberish as the name. If you look closely, you can spot that the name is base64 encoded. Proceed to it decode! ```echo NmQyNDI0NzE2YzVmNTM0MDVmNTA0MDczNzM1NzMwNzI2NDIx | base64 -d```. This outputs `6d2424716c5f53405f504073735730726421`. That looks familiar as well, doesn't it? It's hex! Aaaand it decodes to `m$$ql_S@_P@ssW0rd!`. Wonderful! Onto the second point now. Simply scroll down the webpage.
 
 <img src="/assets/img/blog/htb-mantis/htb-mantis-04.png">
 
@@ -157,8 +155,8 @@ SQL Server sa credentials file namez
 Secure format? Binary? These two don't go together. By decoding the binary string above we are present with another password: `@dm!n_P@ssW0rd!`. 
 
 So far we have gathered two passwords:
-* m$$ql_S@_P@ssW0rd! - Probably the MSSQL credentials
-* @dm!n_P@ssW0rd! - OrchardCMS admin credentials
+* **m$$ql_S@_P@ssW0rd!** - Probably the MSSQL credentials
+* **@dm!n_P@ssW0rd!** - OrchardCMS admin credentials
 
 Let's save them and continue enumeration of other services.
 
@@ -228,9 +226,9 @@ I didn't notice this attack vector in my first attempt, BUT kudos to [ippsec](ht
 ## Kerberos - MS14-068 
 For the sake of keeping this blog post short I won't describe the *"science"* behind this exploitation. It's really complex. Check the links below if you are interested in the actual explanation. 
 
-* https://labs.mwrinfosecurity.com/blog/digging-into-ms14-068-exploitation-and-defence/
-* https://www.trustedsec.com/2014/12/ms14-068-full-compromise-step-step/
-* https://adsecurity.org/?p=676
+* [__Digging into ms14_068__](https://labs.mwrinfosecurity.com/blog/digging-into-ms14-068-exploitation-and-defence/)
+* [__Trustedsec - step by step compromise__](https://www.trustedsec.com/2014/12/ms14-068-full-compromise-step-step/)
+* [__Adsecurity__](https://adsecurity.org/?p=676)
 
 For exploiting this particular vulnerability we can use impacket github [repo](https://github.com/CoreSecurity/impacket) & its [goldenPac.py](https://github.com/CoreSecurity/impacket/blob/master/examples/goldenPac.py) exploit. Install it:
 
