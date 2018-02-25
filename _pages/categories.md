@@ -1,8 +1,8 @@
 ---
 layout: single
 author_profile: true
-title: About
-permalink: /about.html
+title: Categories
+permalink: /categories.html
 ---
 
 # TODO
