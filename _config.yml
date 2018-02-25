@@ -13,7 +13,7 @@ title                    : "V3ded's workshop"
 title_separator          : "-"
 name                     : "V3ded"
 description              : "V3ded's workshop" #TODO: Change
-url                      : "https://v3-debug.github.io/"
+url                      : "https://v3-debug.github.io"
 baseurl                  : # the subpath of your site, e.g. "/blog"
 repository               : v3-debug/v3-debug.github.io
 teaser                   : # path of fallback teaser image, e.g. "/assets/images/500x300.png"
