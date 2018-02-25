@@ -45,7 +45,7 @@ staticman:
     date:
       type               : # "date"
       options:
-        format           : iso8601" (default), "timestamp-seconds", "timestamp-milliseconds"
+        format           : "iso8601" (default), "timestamp-seconds", "timestamp-milliseconds"
 reCaptcha:
   siteKey                :
   secret                 :
@@ -94,7 +94,7 @@ author:
   avatar           : "/assets/img/profile/profile.jpg"
   bio              : "PLACEHOLDER" #Change
   location         : "127.0.0.1"
-  email            :
+  email            :  "placeholder@notexistingmail.com"
   uri              :
   home             : # null (default), "absolute or relative url to link to author home"
   bitbucket        :
@@ -103,7 +103,7 @@ author:
   flickr           :
   facebook         :
   foursquare       :
-  github           :
+  github           :  v3-debug/
   gitlab           :
   google_plus      :
   keybase          :
@@ -115,7 +115,7 @@ author:
   stackoverflow    : # "123456/username" (the last part of your profile url, e.g. https://stackoverflow.com/users/123456/username)
   steam            : # "steamId" (the last part of your profile url, e.g. https://steamcommunity.com/id/steamId/)
   tumblr           :
-  twitter          :
+  twitter          :  v3ded
   vine             :
   weibo            :
   xing             :
@@ -255,7 +255,7 @@ defaults:
     values:
       layout: single
       author_profile: true
-      read_time: true
+      read_time: false
       comments: # true
       share: true
       related: true
