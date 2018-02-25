@@ -117,7 +117,7 @@ Right from the bat we can see multiple interesting services - `Kerberos(88), LDA
 ## Wasted (port: 1337)
 This port immediately grabbed my attention! It's sort of an infosec [pun](https://www.urbandictionary.com/define.php?term=1337) one could say :). Upon accessing the port we are present with a web server:
 
-<src="/assets/img/blog/htb-mantis/htb-mantis-01.png">
+<img src="/assets/img/blog/htb-mantis/htb-mantis-01.png">
 
 Usual scans like nikto didn't yield much. Time to brute the directories:
 ```console
