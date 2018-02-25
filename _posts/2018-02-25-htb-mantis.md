@@ -4,9 +4,11 @@ title: "HackTheBox - Mantis writeup"
 header:
   overlay_image: /assets/img/thumbnails/test.jpg
   caption: "[__HackTheBox__](https://www.hackthebox.eu/)"
-comments: true
 related: true
+comments: true
 ---
+
+\[DEBUG\]
 
 It has been a long time since my last blog for sure! Close to 4 months! Well, time to change that, I guess. This blog will describe steps needed to *pwn* the Mantis machine from [HackTheBox](https://www.hackthebox.eu/) labs. Hope you enjoy! 
 
