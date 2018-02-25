@@ -2,7 +2,7 @@
 layout: single
 title: "HackTheBox - Mantis writeup"
 header:
-  overlay_image: /assets/img/thumbnails/test.jpg
+  teaser: /assets/img/thumbnails/test.jpg
   caption: "[__HackTheBox__](https://www.hackthebox.eu/)"
 related: true
 comments: true
