@@ -6,6 +6,7 @@ header:
   caption: "[__HackTheBox__](https://www.hackthebox.eu/)"
 author: V3ded
 comments: true
+related: true
 ---
 
 It has been a long time since my last blog for sure! Close to 4 months! Well, time to change that, I guess. This blog will describe steps needed to *pwn* the Mantis machine from [HackTheBox](https://www.hackthebox.eu/) labs. Hope you enjoy! 
@@ -115,7 +116,7 @@ Right from the bat we can see multiple interesting services - `Kerberos(88), LDA
 ## Wasted (port: 1337)
 This port immediately grabbed my attention! It's sort of an infosec [pun](https://www.urbandictionary.com/define.php?term=1337) one could say :). Upon accessing the port we are present with a web server:
 
-<img src="assets/img/blog/htb-mantis/htb-mantis-01.png">
+<src="/assets/img/blog/htb-mantis/htb-mantis-01.png">
 
 Usual scans like nikto didn't yield much. Time to brute the directories:
 ```console
@@ -133,11 +134,11 @@ Gobuster v1.2                OJ Reeves (@TheColonial)
 http://10.10.10.52:8080/secure_notes (Status: 200)
 ```
 Secure_notes:
-<img src="assets/img/blog/htb-mantis/htb-mantis-02.png">
+<img src="/assets/img/blog/htb-mantis/htb-mantis-02.png">
 
 Unfortunately web.config doesn't lead anywhere, it's just an empty page. However dev_notes do!
 dev_notes:
-<img src="assets/img/blog/htb-mantis/htb-mantis-03.png">
+<img src="/assets/img/blog/htb-mantis/htb-mantis-03.png">
 
 Notice two alerting things:
 1. The actual filename - **dev_notes_NmQyNDI0NzE2YzVmNTM0MDVmNTA0MDczNzM1NzMwNzI2NDIx.txt.txt**
