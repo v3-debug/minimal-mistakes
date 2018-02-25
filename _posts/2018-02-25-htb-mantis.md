@@ -143,7 +143,11 @@ Notice two alerting things:
 1. The actual filename - **dev_notes_NmQyNDI0NzE2YzVmNTM0MDVmNTA0MDczNzM1NzMwNzI2NDIx.txt.txt**
 2. The scrollbar on the right indicates we can still go down and view possible hidden content.
 
-Regarding point 1 - the filename looks suspicious. 2 file extensions and "random" gibberish as the name. If you look closely, you can spot that the name is base64 encoded. Proceed to it decode! ```echo NmQyNDI0NzE2YzVmNTM0MDVmNTA0MDczNzM1NzMwNzI2NDIx | base64 -d```. This outputs `6d2424716c5f53405f504073735730726421`. That looks familiar as well, doesn't it? It's hex! Aaaand it decodes to `m$$ql_S@_P@ssW0rd!`. Wonderful! Onto the second point now. Simply scroll down the webpage.
+Regarding point 1 - the filename looks suspicious. 2 file extensions and "random" gibberish as the name. If you look closely, you can spot that the name is base64 encoded. Proceed to decode it! 
+```console
+echo NmQyNDI0NzE2YzVmNTM0MDVmNTA0MDczNzM1NzMwNzI2NDIx | base64 -d
+```
+This outputs `6d2424716c5f53405f504073735730726421`. That looks familiar as well, doesn't it? It's hex! Aaaand it decodes to `m$$ql_S@_P@ssW0rd!`. Wonderful! Onto the second point now. Simply scroll down the webpage.
 
 <img src="/assets/img/blog/htb-mantis/htb-mantis-04.png">
 
