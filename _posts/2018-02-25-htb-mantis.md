@@ -108,7 +108,10 @@ OS and Service detection performed. Please report any incorrect results at https
 Nmap done: 1 IP address (1 host up) scanned in 872.47 seconds
 
 ```
-> Tip: You can use "--script vuln" to try and run every "vuln" testing script in nmap. It's very loud though so I'd advise not to use it if your main goal is to stay hidden."
+<div class="notice--info">
+  <b><h2>Tip:</h2></b>
+  <p>You can use "--script vuln" to try and run every "vuln" testing script in nmap. It's very loud though so I'd advise not to  use it if your main goal is to stay hidden.</p>
+</div>
 
 Right from the bat we can see multiple interesting services - `Kerberos(88), LDAP(389), MSSQL(1433), IIS(8080) and ?Wasted (1337)?`. Let's go through some of them.
 
