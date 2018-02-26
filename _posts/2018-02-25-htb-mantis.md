@@ -209,17 +209,17 @@ This one is really simple. Just use the previously discovered credentials and sn
 Navigate through tables until you reach `UserPartRecord` (part of *orcharddb*) and view the data:
 <img src="/assets/img/blog/htb-mantis/htb-mantis-09.png">
 
-A new username and a **cleartext** password! 
-* james@htb.local
-* J@m3s_P@ssW0rd!
+A new username and a *cleartext* password! 
+* **james@htb.local**
+* **J@m3s_P@ssW0rd!**
 
 ***
 
 # Exploitation
 
 2 main methods!
-* psexec
-* Kerberos golden ticket forging - MS14-068 
+* **psexec**
+* **MS14-068** - Kerberos golden ticket forging
 
 Instead of exploiting straight away you can use various tools like `rpcclient` or `smbclient` to gather some information. Trying to keep the blog short though, so let's skip that.
 
