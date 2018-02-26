@@ -136,11 +136,11 @@ Gobuster v1.2                OJ Reeves (@TheColonial)
 =====================================================
 http://10.10.10.52:8080/secure_notes (Status: 200)
 ```
-Secure_notes:
+**Secure_notes:**
 <img src="/assets/img/blog/htb-mantis/htb-mantis-02.png">
 
-Unfortunately web.config doesn't lead anywhere, it's just an empty page. However dev_notes do!
-dev_notes:
+Unfortunately web.config doesn't lead anywhere, it's just an empty page. However dev_notes do!<br>
+**dev_notes:**
 <img src="/assets/img/blog/htb-mantis/htb-mantis-03.png">
 
 Notice two alerting things:
@@ -203,7 +203,7 @@ Unfortunately I didn't find any useful information on here. Might as well be a r
 This one is really simple. Just use the previously discovered credentials and snoop through the database tables! I used `DBeaver` for this purpose.
 > DBeaver can be installed with apt: apt-get install dbeaver 
 
-Add a new connection:
+**Add a new connection:**
 <img src="/assets/img/blog/htb-mantis/htb-mantis-08.png">
 
 Navigate through tables until you reach `UserPartRecord` (part of *orcharddb*) and view the data:
