@@ -4,8 +4,8 @@ title: "HackTheBox - Mantis writeup"
 header:
   overlay_image: /assets/img/thumbnails/test.jpg
   caption: "[__HackTheBox__](https://www.hackthebox.eu/)"
+excerpt: "Test"
 related: true
-overlay_excerpt: false
 comments: true
 ---
 
