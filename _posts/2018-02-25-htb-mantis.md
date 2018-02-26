@@ -108,8 +108,9 @@ OS and Service detection performed. Please report any incorrect results at https
 Nmap done: 1 IP address (1 host up) scanned in 872.47 seconds
 
 ```
+
 <div class="notice--info">
-  <b><h2>Tip:</h2></b>
+  <h4>Tip:</h4>
   <p>You can use "--script vuln" to try and run every "vuln" testing script in nmap. It's very loud though so I'd advise not to  use it if your main goal is to stay hidden.</p>
 </div>
 
