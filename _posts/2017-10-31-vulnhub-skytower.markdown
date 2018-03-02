@@ -1,6 +1,6 @@
 ---
 layout: single
-title: "Vulnhub - Brainpan1"
+title: "Vulnhub - Skytower1"
 header:
   overlay_image: /assets/img/thumbnails/thmbn-01.jpg
   caption: "[__Vulnhub__](https://www.vulnhub.com/entry/skytower-1,96/)"
@@ -77,19 +77,19 @@ Nmap done: 1 IP address (1 host up) scanned in 30.75 seconds
 
 Nmap scan shows, that there is a running HTTP Apache web server. Upon loading the page in a browser we get a result:
 
-<img src="/img/blog/skytower/skytower-01.png">
+<img src="/assets/img/blog/vulnhub-skytower1/skytower-01.png">
 
 An interesting page and a login functionality! I wonder how it reacts to SQL statements? Login crashes when we input a simple apostrophe - `'` inside username field. Clear sign of an SQL injection. 
 
-<img src="/img/blog/skytower/skytower-02.png">  
+<img src="/assets/img/blog/vulnhub-skytower1/skytower-02.png">  
 
 A common login bypass would be a crafted request which looks very similar to: `' OR 1=1#`. Unfortunately there is a filter which prevents the injection:
  
-<img src="/img/blog/skytower/skytower-03.png">  
+<img src="/assets/img/blog/vulnhub-skytower1/skytower-03.png">  
 
 `OR` and `=` completely dissapeared from the query. Hmm... A certain filter is blocking SQL keywords to prevent a disaster. If you don't know what to do, you should read an [article](https://www.owasp.org/index.php/SQL_Injection_Bypassing_WAF) about bypassing filters / WAFs by OWASP. After enough trial and error I found a string which worked. `' OORR 1=1#` bypasses the defenses and puts us past the login!  
 
-<img src="/img/blog/skytower/skytower-04.png">  
+<img src="/assets/img/blog/vulnhub-skytower1/skytower-04.png">  
 
 Alternatively, `' || 1=1#` will work as well. 
 
@@ -116,11 +116,11 @@ After that just connect to SSH via proxychains:
 proxychains ssh john@192.168.1.16
 ``` 
 
-<img src="/img/blog/skytower/skytower-05.png">
+<img src="/assets/img/blog/vulnhub-skytower1/skytower-05.png">
 
 Unfortunately the connection immediately drops. Most probably because `.bashrc` file has an *exit* instruction somewhere within it. To circumvent this, I just rename `.bashrc` on the target system and retry the login. This can be done by chaining a command right after doing SSH connect:
 
-<img src="/img/blog/skytower/skytower-06.png">
+<img src="/assets/img/blog/vulnhub-skytower1/skytower-06.png">
 
 Because `.bashrc` file has no longer an effect on our session, we are greeted with a nice shell! 
 
@@ -132,7 +132,7 @@ Because `.bashrc` file has no longer an effect on our session, we are greeted wi
 
 Browsing around the filesystem I notice there is an active instance of *MYSQL* database running. You can either guess the correct password (default) or find it inside `/var/www/login.php`.  
 
-<img src="/img/blog/skytower/skytower-07.png">
+<img src="/assets/img/blog/vulnhub-skytower1/skytower-07.png">
 
 Funny or not, you can also see the filter which prevented us from doing simple SQL injections. Enough of talking though. Connect to the database and get the sweet credentials!
 
@@ -176,11 +176,11 @@ If some of the queries are unclear I recommend reading a MySQL [cheatsheet](http
 
 Afterwards I tried to login as Wiliam, but his credentials don't work. However Sara's do! She has the same *exit* annoyance thingy in `.bashrc` as John, but fear not. We already know how to go around it :).
 
-<img src="/img/blog/skytower/skytower-08.png">
+<img src="/assets/img/blog/vulnhub-skytower1/skytower-08.png">
 
 Then do `sudo -l`
 
-<img src="/img/blog/skytower/skytower-09.png">
+<img src="/assets/img/blog/vulnhub-skytower1/skytower-09.png">
 
 which reveals we can run `/bin/cat /accounts/` under root privileges. This alows for a path traversal and `cat`-ing of protected content. In my case the root flag.
 
@@ -193,7 +193,7 @@ sara@SkyTower:~$
 
 Just do `su root`, enter the password and BAAM! 
 
-<img src="/img/blog/skytower/skytower-10.png">
+<img src="/assets/img/blog/vulnhub-skytower1/skytower-10.png">
 
 ## Rooted!
 
@@ -205,4 +205,4 @@ In my opinion a prety solid box. I learnt few new things and had fun while doing
 
 ~V3 
 
-<img src="/img/blog/skytower/bye.png">
+<img src="/assets/img/blog/vulnhub-skytower1/bye.png">
