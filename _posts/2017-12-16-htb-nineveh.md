@@ -234,7 +234,7 @@ There are many methods one can choose in order to compromise the application, bu
 
 <div class="notice--info">
   <h4>Note:</h4>
-  <p>If you save the file as <b>.php</b> it would get activated on your own server when you wget it later on - <em>be careful about it</em>. That's why we save it as **.txt** and output it to <b>.php</b></p>
+  <p>If you save the file as <b>.php</b> it would get activated on your own server when you wget it later on - <em>be careful about it</em>. That's why we save it as <b>.txt</b> and output it to <b>.php</b></p>
 </div>
 
 To proceed with the exploitation do as the exploitdb file says. Create a database with *.php* extension (I named it shell.php, name doesn't matter!):
