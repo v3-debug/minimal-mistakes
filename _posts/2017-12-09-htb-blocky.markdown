@@ -58,7 +58,7 @@ Nmap done: 1 IP address (1 host up) scanned in 101.75 seconds
 
 Upon visiting the webpage we are greeted with:
 
-<img src="/img/blog/htb-blocky/htb-blocky-01.png">
+<img src="/assets/img/blog/htb-blocky/htb-blocky-01.png">
 
 Following the normal enumeration procedures - vulnerability scanning and directory bruteforcing we discover multiple points of interest. Running `gobuster` presents us with many directories which we can look into:
 ```console
@@ -253,7 +253,7 @@ _______________________________________________________________
 
 That's a lot of vulnerabilities, isn't it? Unfortunately none of them can be exploited (we can at least note down the username `notch`). Proceeding to browse previously mentioned directories, I notice that `/plugins/` folder has *jar* files inside it which can be easily [reverse engineered or disassembled](https://tools.kali.org/reverse-engineering/jad). Hopefully we can find some hard-coded credentials?
 
-<img src="/img/blog/htb-blocky/htb-blocky-02.png">
+<img src="/assets/img/blog/htb-blocky/htb-blocky-02.png">
 
 Steps:
 * Download the **BlockyCore** jar file
@@ -352,7 +352,7 @@ User notch may run the following commands on Blocky:
 
 `sudo -su` can be therefore easily used to gain root access!
 
-<img src="/img/blog/htb-blocky/htb-blocky-03.png">
+<img src="/assets/img/blog/htb-blocky/htb-blocky-03.png">
 
 ***
 
