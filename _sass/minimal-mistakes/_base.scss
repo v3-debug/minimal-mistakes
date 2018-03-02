@@ -107,11 +107,19 @@ abbr[data-original-title] {
 /* blockquotes */
 
 blockquote {
-  margin: 2em 1em 2em 0;
+  /*margin: 2em 1em 2em 0;
   padding-left: 1em;
   padding-right: 1em;
   font-style: italic;
-  border-left: 0.25em solid $primary-color;
+  border-left: 0.25em solid $primary-color;*/
+  
+  //CREDITS: Jack Halon
+  border-left: 0.25em solid darken(#EEF7FA, 20%);
+  margin: 2em 1em 2em 0;
+  padding: 0.75em 1em;
+  font-style: italic;
+  background-color: #EEF7FA;
+  box-shadow: 0 2px 2px $border-color;
 
   cite {
     font-style: italic;
