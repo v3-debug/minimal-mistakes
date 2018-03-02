@@ -124,8 +124,10 @@ Unfortunately the connection immediately drops. Most probably because `.bashrc` 
 
 Because `.bashrc` file has no longer an effect on our session, we are greeted with a nice shell! 
 
-> Theoretically you can run any command by the previously mentioned method. Feel free to bypass the restriction any way you feel.
-
+<div class="notice--info">
+  <h4>Note:</h4>
+  <p>Theoretically you can run any command by the previously mentioned method. Feel free to bypass the restriction any way you feel.</p>
+</div>
 ***
 
 # Privilege Escalation
@@ -201,7 +203,7 @@ Just do `su root`, enter the password and BAAM!
 
 # Conclusion
 
-In my opinion a prety solid box. I learnt few new things and had fun while doing so. What more can you wish for?! My thanks goes to **bitvijays** for providing me with guidance when I got stuck once or twice. Check out his blog at <http://bitvijays.github.io/> ! If there are any questions feel free to reach out to me by sending an email or leaving a comment down bellow.  
+In my opinion a pretty solid box. I learnt few new things and had fun while doing so. What more can you wish for?! My thanks goes to **bitvijays** for providing me with guidance when I got stuck on one occasion. Check out his blog at <http://bitvijays.github.io/> ! If there are any questions feel free to reach out to me by sending an email or leaving a comment down bellow.  
 
 ~V3 
 
