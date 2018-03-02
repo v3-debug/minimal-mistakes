@@ -3,7 +3,7 @@ layout: single
 title: "Vulnhub - Brainpan1"
 header:
   overlay_image: /assets/img/thumbnails/thmbn-01.jpg
-  caption: "[__HackTheBox__](https://www.hackthebox.eu/)"
+  caption: "[__Vulnhub__](https://www.vulnhub.com/entry/brainpan-1,51/)"
 excerpt: "Hack the planet!"
 related: true
 comments: true
