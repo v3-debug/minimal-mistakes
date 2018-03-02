@@ -75,7 +75,7 @@ http://10.10.10.43/department (Status: 301)
 
 <div class="notice--info">
   <h4>Note:</h4>
-  <p>Install gobuster by with <b>apt-get install gobuster<b></p>
+  <p>Install gobuster by with <b>apt-get install gobuster</b></p>
 </div>
 
 `/department/` directory presents us with what looks like a custom login page:
