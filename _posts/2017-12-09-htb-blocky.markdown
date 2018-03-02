@@ -81,7 +81,11 @@ http://10.10.10.37/javascript (Status: 301)
 http://10.10.10.37/wp-admin (Status: 301)
 http://10.10.10.37/phpmyadmin (Status: 301)
 ```
-> Note: gobuster can be installed with apt-get install gobuster
+<div class="notice--info">
+  <h4>Note:</h4>
+  <p> gobuster can be installed with <b>apt-get install gobuster</b> </p>
+</div>
+
   
 and running `wpscan` allows us to enumerate the current wordpress installation (look at the nmap scan, mentions that the webpage is running WP):
 ```console
@@ -249,7 +253,11 @@ _______________________________________________________________
 
 
 ```
-> --enumerate = enumerates everything including plugins, users, etc.
+
+<div class="notice--info">
+  <h4>Note:</h4>
+  <p> <b>--enumerate</b> = enumerates everything including plugins, users, etc. </p>
+</div>
 
 That's a lot of vulnerabilities, isn't it? Unfortunately none of them can be exploited (we can at least note down the username `notch`). Proceeding to browse previously mentioned directories, I notice that `/plugins/` folder has *jar* files inside it which can be easily [reverse engineered or disassembled](https://tools.kali.org/reverse-engineering/jad). Hopefully we can find some hard-coded credentials?
 
@@ -306,7 +314,10 @@ public class BlockyCore
     public String sqlPass;
 }
 ``` 
-> *jad* produces a file called **BlockyCore.jad** which I just printed out using *cat*
+<div class="notice--info">
+  <h4>Note:</h4>
+  <p> <b>jad</b> produces a file called <b>BlockyCore.jad</b> which I just printed out using <b>cat</b> </p>
+</div>
 
 My assumptions were correct and we successfully extracted some database credentials. 
 ```console
