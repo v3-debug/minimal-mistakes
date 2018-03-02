@@ -2,7 +2,7 @@
 layout: single
 title: "HackTheBox - Nineveh writeup"
 header:
-  overlay_image: /assets/img/thumbnails/test.jpg
+  overlay_image: /assets/img/thumbnails/thmbn-01.jpg
   caption: "[__HackTheBox__](https://www.hackthebox.eu/)"
 excerpt: "Hack the planet!"
 related: true
