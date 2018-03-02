@@ -1,12 +1,12 @@
 ---
-layout: post
+layout: single
 title: "HackTheBox - Europa writeup"
-subtitle: "~ Walkthrough of Europa machine from HackTheBox ~"
-date: 2017-12-02
-author: V3ded
-category: CTF
-tags: blog ctf pentesting hackthebox
-finished: true
+header:
+  overlay_image: /assets/img/thumbnails/thmbn-01.jpg
+  caption: "[__HackTheBox__](https://www.hackthebox.eu/)"
+excerpt: "Hack the planet!"
+related: true
+comments: true
 ---
 
 # Introduction
