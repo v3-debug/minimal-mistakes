@@ -1,12 +1,12 @@
 ---
-layout: post
-title: "SkyTower writeup"
-subtitle: "~ Walkthrough of SkyTower machine ~"
-date: 2017-10-31
-author: V3ded
-category: CTF
-tags: blog ctf pentesting 
-finished: true
+layout: single
+title: "Vulnhub - Brainpan1"
+header:
+  overlay_image: /assets/img/thumbnails/thmbn-01.jpg
+  caption: "[__Vulnhub__](https://www.vulnhub.com/entry/skytower-1,96/)"
+excerpt: "Hack the planet!"
+related: true
+comments: true
 ---
 
 # Introduction
