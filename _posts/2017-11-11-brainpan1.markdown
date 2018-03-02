@@ -1,14 +1,13 @@
 ---
-layout: post
-title: "Brainpan1 writeup"
-subtitle: "~ Walkthrough of Brainpan1 machine ~"
-date: 2017-11-11
-author: V3ded
-category: CTF
-tags: blog ctf pentesting 
-finished: true
+layout: single
+title: "Vulnhub - Brainpan1"
+header:
+  overlay_image: /assets/img/thumbnails/thmbn-01.jpg
+  caption: "[__HackTheBox__](https://www.hackthebox.eu/)"
+excerpt: "Hack the planet!"
+related: true
+comments: true
 ---
-
 
 # Briefing
 
