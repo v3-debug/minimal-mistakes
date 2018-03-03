@@ -3,7 +3,7 @@ layout: single
 title: "Vulnhub - Kioptrix2"
 header:
   overlay_image: /assets/img/thumbnails/thmbn-01.jpg
-  caption: "[__Vulnhub__](https://www.vulnhub.com/entry/kioptrix-level-1-1,22/)"
+  caption: "[__Vulnhub__](https://www.vulnhub.com/entry/kioptrix-level-11-2,23/)"
 excerpt: "Hack the planet!"
 related: true
 comments: true
