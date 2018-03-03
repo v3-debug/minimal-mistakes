@@ -118,7 +118,7 @@ Nmap done: 1 IP address (1 host up) scanned in 13.06 seconds
            Raw packets sent: 1198 (55.288KB) | Rcvd: 1188 (50.012KB)
 ```
 
-Port 20,80 and 111 open - time to enumerate them. With multiple ports available, I usually aim for the webserver first. There are many tools to ease this process such as [Nikto](http://sectools.org/tool/nikto/), [Dirb](https://tools.kali.org/web-applications/dirb)/[Dirbuster](https://www.owasp.org/index.php/Category:OWASP_DirBuster_Project), nmap scripts, [OWASP-ZAP](https://www.owasp.org/index.php/OWASP_Zed_Attack_Proxy_Project), [wpscan](https://wpscan.org/) and the list goes on. Nikto, wpscan are common web vulnerability scanners, Dirb & Dirbuster directory bruteforcers. This sort of active scanning takes up a lot of time and therefore it is important to que the scans in right order to save as much time as possible. I proceed to run `dirb` while I manually browse the webpage for clues.
+Port 20,80 and 111 open - time to enumerate them. With multiple ports available, I usually aim for the webserver first. There are many tools to ease this process such as [Nikto](http://sectools.org/tool/nikto/), [Dirb](https://tools.kali.org/web-applications/dirb)/[Dirbuster](https://www.owasp.org/index.php/Category:OWASP_DirBuster_Project), nmap scripts, [OWASP-ZAP](https://www.owasp.org/index.php/OWASP_Zed_Attack_Proxy_Project), [wpscan](https://wpscan.org/) and the list goes on. Nikto, wpscan are common web vulnerability scanners, Dirb & Dirbuster directory bruteforcers. This sort of active scanning takes up a lot of time and therefore it is important to queue the scans in right order to save as much time as possible. I proceed to run `dirb` while I manually browse the webpage for clues.
 
 Webpage:
 
