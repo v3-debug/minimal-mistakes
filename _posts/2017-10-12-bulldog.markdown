@@ -290,7 +290,10 @@ crtstuff.c
 * CANTGETgetultimateSWORD
 * youCANTgetultimatePASSWORD
 
-> Note: before doing this you might have to spawn a TTY shell 
+<div class="notice--info">
+  <h4>Note:</h4>
+  <p>Before doing this you might have to spawn a TTY shell</p>
+</div>
 
 *TTY shell command:* `python -c 'import pty; pty.spawn("/bin/sh")'`
 
