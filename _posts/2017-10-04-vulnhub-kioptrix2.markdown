@@ -1,12 +1,12 @@
 ---
-layout: post
-title: "Kioptrix 2 writeup"
-subtitle: "~ Walkthrough of Kioptrix 2 machine ~"
-date: 2017-10-04
-author: V3ded
-category: CTF
-tags: blog ctf pentesting 
-finished: true
+layout: single
+title: "Vulnhub - Kioptrix2"
+header:
+  overlay_image: /assets/img/thumbnails/thmbn-01.jpg
+  caption: "[__Vulnhub__](https://www.vulnhub.com/entry/kioptrix-level-1-1,22/)"
+excerpt: "Hack the planet!"
+related: true
+comments: true
 ---
 
 # Intro
