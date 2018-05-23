@@ -10,10 +10,9 @@ comments: true
 ---
 
 # Introduction
-<!-- <img src="/assets/img/blog/htb-sense/htb-sense-01.png"> -->
-![image-center]({{ site.url }}{{ site.baseurl }}/assets/img/blog/htb-sense/htb-sense-01.png){: .align-center}
-
 Sense! An easy rated machine which can be both simple and hard at the same time. Enumeration is a heavy factor in this box, so make sure you don't overlook anything! Missing one simple detail might result into countless hours of wasteful searching and mashing of the keyboard :). Without further ado, let's get right into it!
+
+![image-center]({{ site.url }}{{ site.baseurl }}/assets/img/blog/htb-sense/htb-sense-01.png){: .align-center}
 
 # Scanning  
 Start out by obtaining the IP (**10.10.10.60**) of the Sense machine and nmap it.
@@ -126,7 +125,8 @@ Good news in this one! It mentions that 2 out of 3 vulnerabilities have been pat
 
 File: *system-users.txt*:
 
-<img src="/assets/img/blog/htb-sense/htb-sense-04.png">
+![image-center]({{ site.url }}{{ site.baseurl }}/assets/img/blog/htb-sense/htb-sense-04.png){: .align-center}
+
 ```
 username: Rohit
 password: company defaults
@@ -189,7 +189,7 @@ As it appears, there is also a metasploit module which simplifies everything we'
 ## Doesn't matter which option you go with. A root shell will be your reward nontheless! Congratulations!
 ***
 
-<img src="/assets/img/blog/htb-sense/htb-sense-09.png">
+![image-center]({{ site.url }}{{ site.baseurl }}/assets/img/blog/htb-sense/htb-sense-09.png){: .align-center}
 
 ## Conclusion
 A pretty simple but amazing box. I really liked the authenticity of this one. This exploitation was "real life" like and therefore I consider it as a perfect practice for anyone who wants to improve in this field!
