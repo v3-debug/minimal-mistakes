@@ -124,6 +124,7 @@ File: *changelog.txt*:
 Good news in this one! It mentions that 2 out of 3 vulnerabilities have been patched. That means that 1 vulnerability can still be exploited! Moving on...
 
 File: *system-users.txt*:
+
 <img src="/assets/img/blog/htb-sense/htb-sense-04.png">
 ```
 username: Rohit
