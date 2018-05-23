@@ -10,7 +10,8 @@ comments: true
 ---
 
 # Introduction
-<img src="/assets/img/blog/htb-sense/htb-sense-01.png">
+<!-- <img src="/assets/img/blog/htb-sense/htb-sense-01.png"> -->
+![image-center]({{ site.url }}{{ site.baseurl }}/assets/img/blog/htb-sense/htb-sense-01.png){: .align-center}
 
 Sense! An easy rated machine which can be both simple and hard at the same time. Enumeration is a heavy factor in this box, so make sure you don't overlook anything! Missing one simple detail might result into countless hours of wasteful searching and mashing of the keyboard :). Without further ado, let's get right into it!
 
