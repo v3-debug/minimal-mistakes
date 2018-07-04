@@ -21,7 +21,7 @@ permalink: /about.html
 .tech .describe{
     font-family: 'Noto Sans', serif;
     margin-right: 12px;
-    text-align: center;
+    /*text-align: center;*/
 }
 
 .tech .progress {
@@ -112,6 +112,7 @@ Thanks for viewing my page and I hope to see you around!
             <span class="green" style="width: 65%;"></span>
         </div>
     </div>
+  <br>
     <div class = "item">
         <div class = "describe">
             Networking concepts
@@ -120,6 +121,7 @@ Thanks for viewing my page and I hope to see you around!
             <span class="blue" style="width: 75%;"></span>
         </div>
     </div>
+  <br>
     <div class = "item">
         <div class = "describe">
             Reverse engineering & binary exploitation
@@ -136,6 +138,7 @@ Thanks for viewing my page and I hope to see you around!
             <span class = "darkblue" style="width: 71%;"></span>
         </div>
     </div>
+  <br>
     <div class = "item">
         <div class = "describe">
             Being annoying
