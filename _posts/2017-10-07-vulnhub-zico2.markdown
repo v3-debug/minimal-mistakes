@@ -1,6 +1,8 @@
 ---
 layout: single
 title: "Vulnhub - Zico2"
+categories:
+  - Vulnhub
 header:
   overlay_image: /assets/img/thumbnails/thmbn-01.jpg
   caption: "[__Vulnhub__](https://www.vulnhub.com/entry/zico2-1,210/)"
