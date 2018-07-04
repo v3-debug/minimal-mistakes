@@ -4,7 +4,7 @@ author_profile: true
 title: Categories
 permalink: /categories.html
 ---
-<br>
+<hr>
 <br>
 <h1>HackTheBox:</h1>
 <hr>
@@ -27,7 +27,7 @@ permalink: /categories.html
   <li>Bulldog</li>
   <li>Kioptrix 3</li>
   <li>Skytower 1</li>
-  <li>Kioptrix 2</li>
+  <li>Brainpan 1</li>
 </ul>
 
 <br>
