@@ -280,5 +280,5 @@ zico@zico:/tmp$ sudo zip exploit.zip exploit -T --unzip-command="python -c 'impo
 # Conclusion
 Sorry for making this blog so lenghty! Sure, it was a long read, but I hope you atleast learnt a thing or two. Props to the author - [Rafael](https://twitter.com/rafasantos5) for making such an awesome machine. It sure was fun!
 
-If you have any questions feel free to reach out to me via my [contact page](https://v3ded.github.io/contact/) or comments below.  
+If you have any questions feel free to reach out to me on Twitter (@V3ded) or use the comments below.  
 ~V3 
