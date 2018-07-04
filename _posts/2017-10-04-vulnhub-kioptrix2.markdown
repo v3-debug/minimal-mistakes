@@ -1,6 +1,8 @@
 ---
 layout: single
 title: "Vulnhub - Kioptrix2"
+categories:
+  - Vulnhub
 header:
   overlay_image: /assets/img/thumbnails/thmbn-01.jpg
   caption: "[__Vulnhub__](https://www.vulnhub.com/entry/kioptrix-level-11-2,23/)"
