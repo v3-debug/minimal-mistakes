@@ -1,6 +1,8 @@
 ---
 layout: single
 title: "Vulnhub - Bulldog"
+categories:
+  - Vulnhub
 header:
   overlay_image: /assets/img/thumbnails/thmbn-01.jpg
   caption: "[__Vulnhub__](https://www.vulnhub.com/entry/bulldog-1,211/)"
@@ -309,6 +311,6 @@ A bit later *(1 hour)*, I manage to guess the correct password! `SUPERultimatePA
 
 # Conclusion
 
-This VM was awesome! Altough not very hard, I enjoyed it non the less. Always feels good to root a box. Only one question remains... Are there really multiple ways in? I don't know... Go and find for yourself! I only got this one :). As always if you have any questions feel free to [contact](https://v3ded.github.io/contact/) me any time or leave a comment. 
+This VM was awesome! Altough not very hard, I enjoyed it non the less. Always feels good to root a box. Only one question remains... Are there really multiple ways in? I don't know... Go and find for yourself! I only got this one :). As always if you have any questions feel free to contact me any time (Twitter - @V3ded) or leave a comment down bellow. 
 
 ~V3
